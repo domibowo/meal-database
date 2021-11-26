@@ -32,28 +32,10 @@ export default class Home extends React.Component {
                 })
             })
         })
-        this.backHandler = rn.BackHandler.addEventListener('hardwareBackPress', () => {
-            rn.Alert.alert(
-                'Alert!',
-                'Are you sure you want to quit?',
-                [
-                    {
-                        text: 'Cancel',
-                        style: 'cancel'
-                    },
-                    {
-                        text: 'OK',
-                        onPress: () => rn.BackHandler.exitApp()
-                    }
-                ],
-                {cancelable: false}
-            )
-        })
     }
 
     componentWillUnmount() {
         this.shakeHandler.remove()
-        this.backHandler.remove()
     }
 
     randomizeItem() {
@@ -96,16 +78,15 @@ export default class Home extends React.Component {
         return (
             <rn.ImageBackground source={{uri: this.state.imageRandom !== '' ? this.state.imageRandom : '#fff'}} style={styles.ImageBackground}>
                 <rn.View style={styles.AppName}>
-                    <rn.Image source={require('../../assets/logo.png')} style={{resizeMode:"cover"}}/>
+                    <rn.Image source={require('../../assets/logo.png')} style={{resizeMode:"contain"}}/>
                 </rn.View>
                 <rn.View style={styles.ImageText}>
-                    <rn.Text onPress={() => this.onPressTitle()} style={styles.ImageTitle} ellipsizeMode="tail" numberOfLines={2}>{this.state.nameRandom}</rn.Text>
-                    <rn.Text onPress={() => this.onPressCategory()}style={styles.ImageCategory}>{this.state.categoryRandom}</rn.Text>
-                    <rn.Text onPress={() => this.onPressArea()} style={styles.ImageArea}>{this.state.areaRandom}</rn.Text>
+                    <rn.Text onPress={this.onPressTitle} style={styles.ImageTitle} ellipsizeMode="tail" numberOfLines={2}>{this.state.nameRandom}</rn.Text>
+                    <rn.Text onPress={this.onPressCategory}style={styles.ImageCategory}>{this.state.categoryRandom}</rn.Text>
+                    <rn.Text onPress={this.onPressArea} style={styles.ImageArea}>{this.state.areaRandom}</rn.Text>
                 </rn.View>
                 <rn.View style={styles.ButtomView}>
-                    {/* <rn.Button title="Learn More" color="#FFAB4C"/> */}
-                    <Button style={styles.ButtonLearn}>
+                    <Button style={styles.ButtonLearn} onPress={this.moreFoodAvailableButton}>
                         <rn.Text style={styles.TextButton}>More Food Available</rn.Text>
                     </Button>
                 </rn.View>
@@ -143,7 +124,7 @@ const styles = rn.StyleSheet.create({
         marginTop: rn.Dimensions.get('screen').height * .3,
         marginBottom: rn.Dimensions.get('screen').height * .01,
         marginHorizontal: 10,
-        borderRadius: 5
+        borderRadius: 5,
     },
     ImageTitle: {
         fontSize: 45,
@@ -162,14 +143,16 @@ const styles = rn.StyleSheet.create({
     AppName: {
         flex: 1,
         alignItems: 'center',
+        opacity: 0.8,
         // justifyContent: 'flex-start',
-        // marginTop: rn.Dimensions.get("window").height * .20,
+        // paddingTop: rn.Dimensions.get("window").height * .20,
     },
     ButtomView: {
         flex: 1,
         alignItems: 'center',
         justifyContent: 'center',
         alignSelf: 'center',
+        marginBottom: '10%',
     },
     ButtonLearn: {
         width: rn.Dimensions.get('screen').width * .5,

@@ -1,8 +1,8 @@
 import axios from "axios";
 
-export const searchMeals = async(key) => {
+export const searchMeals = async(q,key) => {
   try {
-    return fetch(`https://www.themealdb.com/api/json/v1/1/search.php?s=${key}`)
+    return fetch(`https://www.themealdb.com/api/json/v1/1/search.php?${q}=${key}`)
     .then(response => response.json())
     .then(json => json.meals)
   } catch (err) {
